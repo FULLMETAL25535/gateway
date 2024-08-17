@@ -1,0 +1,59 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_038de/fast"
+make[1]: Entering directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_038de.dir/build.make CMakeFiles/cmTC_038de.dir/build
+make[2]: Entering directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_038de.dir/CheckSymbolExists.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_038de.dir/CheckSymbolExists.c.o   -c /home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_038de
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_038de.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_038de.dir/CheckSymbolExists.c.o  -o cmTC_038de -rdynamic 
+CMakeFiles/cmTC_038de.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0xa): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_038de.dir/build.make:97: recipe for target 'cmTC_038de' failed
+make[2]: *** [cmTC_038de] Error 1
+make[2]: Leaving directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_038de/fast' failed
+make[1]: *** [cmTC_038de/fast] Error 2
+make[1]: Leaving directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+
+File /home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_15910/fast"
+make[1]: Entering directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_15910.dir/build.make CMakeFiles/cmTC_15910.dir/build
+make[2]: Entering directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_15910.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_15910.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_15910
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_15910.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_15910.dir/CheckFunctionExists.c.o  -o cmTC_15910 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_15910.dir/build.make:97: recipe for target 'cmTC_15910' failed
+make[2]: *** [cmTC_15910] Error 1
+make[2]: Leaving directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_15910/fast' failed
+make[1]: *** [cmTC_15910/fast] Error 2
+make[1]: Leaving directory '/home/hq/24022/Bigger/mjpg-streamer/_build/CMakeFiles/CMakeTmp'
+
+

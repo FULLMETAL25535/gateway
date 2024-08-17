@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modbus采集控制</title>
+    <script>
+        function init() {
+            // refresh();
+            console("aaa");
+        }
+
+        function refresh() {
+            var xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+            var url = ""; // 请求的URL
+
+            xhr.open("POST", url, true); // 配置请求：POST方法、URL、异步请求
+
+            var post_req = {
+                "type": 1,
+                "limit": "all"
+            };
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) { // 请求完成且成功
+                    var response = xhr.responseText; // 获取响应数据
+                    var info = JSON.parse(response)  //将json字符串反序列化为json对象
+                    console.log(info); // 在浏览器控制台打印响应数据
+                    for (var i = 0; i < info.data.length; i++) {
+                        // console.log('data = ', info.data[i].val)
+
+                        if (info.data[i].key == 1) {
+                            document.getElementById('temp').value = info.data[i].val;
+                        } else if (info.data[i].key == 2) {
+                            document.getElementById('hum').value = info.data[i].val;
+                        } else if (info.data[i].key == 3) {
+                            document.getElementById('ill').value = info.data[i].val;
+                        }
+                    }						
+                }
+            }
+            //将json对象序列化为json字符串
+            xhr.send(JSON.stringify(post_req)); // 发送请求，并将数据转换为JSON字符串
+        }
+
+
+        function fun(obj)
+        {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url="";
+            xhr.open("post",url,true);//配置请求：post方法，URL,异步请求
+            
+            if(obj=='man')
+            {
+                console.log("1 kai");
+                xhr.send("set=0set1=1");
+            }
+            else
+            {
+                console.log("1 guan");
+                xhr.send("set=0set1=0");
+            }
+        }
+        function fun1(obj)
+        {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url="";
+            xhr.open("post",url,true);//配置请求：post方法，URL,异步请求
+            if(obj=='kai')
+            {
+                console.log("2 kai");
+                xhr.send("set=1set1=1");
+            }
+            else
+            {
+                console.log("2 guan");
+                xhr.send("set=1set1=0");
+            }
+        }
+        function get_info()
+        {
+            //获取名字为usrname的标签，赋值给v
+            var v=document.getElementsByName("usrname");
+            //v[0].value="hello";
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url="";
+            xhr.open("post",url,true);//配置请求：post方法，URL,异步请求
+            xhr.onreadystatechange=function()
+            {
+                if(xhr.readyState===4 &&  xhr.status ===200)
+                {
+                    console.log(xhr.responseText);
+                    var postData = xhr.responseText;//获取数据
+                    var dataArray = postData.split(" ");
+                
+                    v[0].value = dataArray[0];
+                    v[1].value = dataArray[1]+" "+dataArray[2]+" "+dataArray[3];
+                    
+                }
+            };
+            xhr.send("get");
+
+        }
+    </script>
+</head>
+<body onload="init()">
+    <h1>信息采集</h1>
+    <br>
+    <div style="color: blue;">
+        <p></p>
+    </div>
+    <a href="index2.html">主页</a>
+		<a href="stm32.html">stm32示例页面</a>
+		
+		
+		<div>
+			<form>
+				<br />
+				温度<input type="text" id="temp" value=""/><br />
+				湿度<input type="text" id="hum" value=""/><br />
+				光照<input type="text" id="ill" value=""/>
+			</form>
+		</div>	
+    光照强度:
+    <input type="text" name="usrname" value="">
+    加速度
+    <input type="text" name="usrname" value="">
+    <input type="button" name="flash" value="获取" onclick="get_info()">
+    <br>
+    <br>
+    <!-- type类型为radio 表示单选框
+        表示同样类型的单选框name必须相同 -->
+    设备控制
+    <br>
+    <br>
+	门：开:<input type="radio" name="door" id="man" checked="checked" onclick="fun(id)">
+    关:<input type="radio" name="door" id="woman" onclick="fun(id)"><br>
+    蜂鸣器 开:<input type="radio" name="sex2" id="kai" checked="checked" onclick="fun1(id)">
+    关:<input type="radio" name="sex2" id="guan" onclick="fun1(id)">
+</body>
+</html>

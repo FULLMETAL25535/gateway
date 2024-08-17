@@ -1,0 +1,69 @@
+{
+    "version":	"v1.0",
+    "report":	{
+        "period":	5,
+        "type":	0
+    },
+    "mqtt_server":	{
+        "addr":	"192.168.85.141",
+        "port":	1883
+    },
+    "mb_dev":	{
+        "addr":	"192.168.85.76",
+        "port":	502
+    },
+    "mb_app":	{
+        "addr":	"192.168.31.222",
+        "port":	8887
+    },
+    "stm32":	{
+        "data":	[{
+                "key":	301,
+                "name":	"js",
+                "type":	1
+            }, {
+                "key":	302,
+                "name":	"light",
+                "type":	1
+            }, {
+                "key":	303,
+                "name":	"kt",
+                "type":	1
+            }, {
+                "key":	304,
+                "name":	"temp",
+                "type":	3
+            }, {
+                "key":	305,
+                "name":	"dl",
+                "type":	3
+            }, {
+                "key":	306,
+                "name":	"temp1",
+                "type":	3
+            }]
+    },
+    "modbus":	{
+        "data":	[{
+                "key":	101,
+                "name":	"hgnum",
+                "addr":	0,
+                "type":	2
+            }, {
+                "key":	102,
+                "name":	"hznum",
+                "addr":	1,
+                "type":	2
+            }, {
+                "key":	103,
+                "name":	"sdai",
+                "addr":	0,
+                "type":	1
+            }, {
+                "key":	104,
+                "name":	"ywbj",
+                "addr":	1,
+                "type":	1
+            }]
+    }
+}

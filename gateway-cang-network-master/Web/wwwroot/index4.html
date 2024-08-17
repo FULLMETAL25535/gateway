@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>智慧疗养院系统设备控制</title>
+
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        function init() {
+            refresh();
+        }
+
+        function refresh() {
+            var myChart = echarts.init(document.getElementById('chart1'));
+
+            // 初始设置 option，先不包含数据
+            var option = {
+                /*backgroundColor: '#05163B',*/
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {
+                            show: true
+                        },
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar']
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                grid: {
+                    top: 'iddle',
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '10%',
+                    containLabel: true
+                },
+                legend: {
+                    data: ['湿度', '温度', '累计', '累计2'],
+                    textStyle: {
+                        color: "#fff"
+                    }
+
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: ['0点', '1点', '2点', '3点', '4点', '5点', '6点', '7点', '8点', '9点', '10点', '11点',
+                        '12点', '13点', '14点', '15点', '16点', '17点', '18点', '19点', '20点', '21点', '23点'
+                    ],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: "#ebf8ac" //X轴文字颜色
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '湿度',
+                    axisLabel: {
+                        formatter: '{value} RH%',
+                        textStyle: {
+                            color: "#2EC7C9" //X轴文字颜色
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                },
+                {
+                    type: 'value',
+                    name: '温度',
+                    axisLabel: {
+                        formatter: '{value} °C',
+                        textStyle: {
+                            color: "#2EC7C9" //X轴文字颜色
+                        }
+                    }, axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                }
+                ],
+                series: [
+
+                    {
+                        name: '湿度',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: 5,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: "#00FFE3"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "#4693EC"
+                                }
+                                ])
+                            }
+                        },
+                        data: [] // 初始为空数组
+                    },
+                    {
+                        name: '温度',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: 5,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: "#C1B2EA"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "#8362C6"
+                                }
+                                ])
+                            }
+                        },
+                        data: [] // 初始为空数组
+                    },
+                    {
+                        name: '累计',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: [], // 初始为空数组
+                        lineStyle: {
+                            normal: {
+                                width: 5,
+                                color: {
+                                    type: 'linear',
+
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#AAF487' // 0% 处的颜色
+                                    },
+                                    {
+                                        offset: 0.4,
+                                        color: '#47D8BE' // 100% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#47D8BE' // 100% 处的颜色
+                                    }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                shadowColor: 'rgba(71,216,190, 0.5)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 7
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#AAF487',
+                                borderWidth: 10,
+                                /*shadowColor: 'rgba(72,216,191, 0.3)',
+                                 shadowBlur: 100,*/
+                                borderColor: "#AAF487"
+                            }
+                        },
+                        smooth: true
+                    },
+                    {
+                        name: '累计2',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: [], // 初始为空数组
+                        lineStyle: {
+                            normal: {
+                                width: 5,
+                                color: {
+                                    type: 'linear',
+
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#F8B854' // 0% 处的颜色
+                                    },
+                                    {
+                                        offset: 0.4,
+                                        color: '#DE801C' // 100% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#DE801C' // 100% 处的颜色
+                                    }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                shadowColor: 'rgba(71,216,190, 0.5)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 7
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#F7AD3E',
+                                borderWidth: 10,
+                                /*shadowColor: 'rgba(72,216,191, 0.3)',
+                                 shadowBlur: 100,*/
+                                borderColor: "#F7AD3E"
+                            }
+                        },
+                        smooth: true
+                    }
+                ]
+            };
+            var xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+            var url = ""; // 请求的URL
+
+            xhr.open("POST", url, true); // 配置请求：POST方法、URL、异步请求
+
+            var post_req = {
+                "type": 1,
+                "limit": "all"
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) { // 请求完成且成功
+                    var response = xhr.responseText; // 获取响应数据
+                    var info = JSON.parse(response)  //将json字符串反序列化为json对象
+                    console.log(info); // 在浏览器控制台打印响应数据
+                    // 更新图表的 data
+                    // //湿度
+                    // option.series[2].data = info.data.slice(2, 3).map(item => item.new_val);
+                    // //温度
+                    // option.series[0].data = info.data.slice(2, 3).map(item => item.new_val);
+                    // //湿度2
+                    // option.series[1].data = info.data.slice(3, 4).map(item => item.new_val);
+                    // //温度2
+                    // option.series[3].data = info.data.slice(3, 4).map(item => item.new_val);
+
+                    console.log('Humidity data:', info.data.slice(2, 3).map(item => item.new_val));
+                    console.log('Temperature data:', info.data.slice(2, 3).map(item => item.new_val));
+                    console.log('Cumulative data 1:', info.data.slice(3, 4).map(item => item.new_val));
+                    console.log('Cumulative data 2:', info.data.slice(3, 4).map(item => item.new_val));
+                    // 使用更新后的配置项更新图表
+                    myChart.setOption(option);
+                    for (var i = 0; i < info.data.length; i++) {
+                        if (info.data[i].key === 101) {
+                            document.getElementById('hugong').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 102) {
+                            document.getElementById('huanzhe').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 306) {
+                            document.getElementById('temp').value = info.data[i].new_val;
+
+                        } else if (info.data[i].key === 304) {
+                            document.getElementById('hum').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 305) {
+                            document.getElementById('dianliang').value = info.data[i].new_val;
+                        }
+
+                    }
+                }
+            };
+
+            //将json对象序列化为json字符串
+            xhr.send(JSON.stringify(post_req)); // 发送请求，并将数据转换为JSON字符串
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+        }
+        function fun(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+
+            if (obj == 'man') {
+                console.log("灯开");
+                xhr.send("set=1");
+            }
+            else {
+                console.log("灯关");
+                xhr.send("set=0");
+            }
+        }
+        function fun1(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'kai') {
+                console.log("加湿器开");
+                xhr.send("set1=1");
+            }
+            else {
+                console.log("加湿器关");
+                xhr.send("set1=0");
+            }
+        }
+        function fun2(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'open') {
+                console.log("空调开");
+                xhr.send("set2=1");
+            }
+            else {
+                console.log("空调关");
+                xhr.send("set2=0");
+            }
+        }
+        function fun5(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+
+            if (obj == 'ropen') {
+                console.log("扫地机器人开");
+                xhr.send("set5=1");
+            }
+            else {
+                console.log("扫地机器人开");
+                xhr.send("set5=0");
+            }
+        }
+        function fun6(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'yopen') {
+                console.log("烟雾报警器开");
+                xhr.send("set6=1");
+            }
+            else {
+                console.log("烟雾报警器关");
+                xhr.send("set6=0");
+            }
+        }
+        function get_info3() {
+            var myChart = echarts.init(document.getElementById('chart1'));
+
+            // 初始设置 option，先不包含数据
+            var option = {
+                /*backgroundColor: '#05163B',*/
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {
+                            show: true
+                        },
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar']
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                grid: {
+                    top: 'iddle',
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '10%',
+                    containLabel: true
+                },
+                legend: {
+                    data: ['湿度', '温度', '湿度2', '温度2'],
+                    textStyle: {
+                        color: "#fff"
+                    }
+
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '10s', '11s', '12s', '13s', '14s', '15s', '16s', '17s', '18s', '19s', '20s', '21s', '22s', '23s', '24s', '25s', '26s', '27s', '28s', '29s', '30s', '31s', '32s', '33s', '34s', '35s', '36s', '37s', '38s', '39s', '40s', '41s', '42s', '43s', '44s', '45s', '46s', '47s', '48s', '49s', '50s', '51s', '52s', '53s', '54s', '55s', '56s', '57s', '58s', '59s', '60s'],
+                    // data: [],
+
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: "#ebf8ac" //X轴文字颜色
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '湿度',
+                    axisLabel: {
+                        formatter: '{value} RH%',
+                        textStyle: {
+                            color: "#2EC7C9" //X轴文字颜色
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                },
+                {
+                    type: 'value',
+                    name: '温度',
+                    axisLabel: {
+                        formatter: '{value} °C',
+                        textStyle: {
+                            color: "#2EC7C9" //X轴文字颜色
+                        }
+                    }, axisLine: {
+                        lineStyle: {
+                            color: '#01FCE3'
+                        }
+                    },
+                }
+                ],
+                series: [
+
+                    {
+                        name: '湿度',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: 5,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: "#00FFE3"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "#4693EC"
+                                }
+                                ])
+                            }
+                        },
+                        data: [] // 初始为空数组
+                    },
+                    {
+                        name: '温度',
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: 5,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: "#C1B2EA"
+                                },
+                                {
+                                    offset: 1,
+                                    color: "#8362C6"
+                                }
+                                ])
+                            }
+                        },
+                        data: [] // 初始为空数组
+                    },
+                    {
+                        name: '温度2',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: [], // 初始为空数组
+                        lineStyle: {
+                            normal: {
+                                width: 5,
+                                color: {
+                                    type: 'linear',
+
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#AAF487' // 0% 处的颜色
+                                    },
+                                    {
+                                        offset: 0.4,
+                                        color: '#47D8BE' // 100% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#47D8BE' // 100% 处的颜色
+                                    }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                shadowColor: 'rgba(71,216,190, 0.5)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 7
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#AAF487',
+                                borderWidth: 10,
+                                /*shadowColor: 'rgba(72,216,191, 0.3)',
+                                 shadowBlur: 100,*/
+                                borderColor: "#AAF487"
+                            }
+                        },
+                        smooth: true
+                    },
+                    {
+                        name: '湿度2',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        data: [], // 初始为空数组
+                        lineStyle: {
+                            normal: {
+                                width: 5,
+                                color: {
+                                    type: 'linear',
+
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: '#F8B854' // 0% 处的颜色
+                                    },
+                                    {
+                                        offset: 0.4,
+                                        color: '#DE801C' // 100% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: '#DE801C' // 100% 处的颜色
+                                    }
+                                    ],
+                                    globalCoord: false // 缺省为 false
+                                },
+                                shadowColor: 'rgba(71,216,190, 0.5)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 7
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#F7AD3E',
+                                borderWidth: 10,
+                                /*shadowColor: 'rgba(72,216,191, 0.3)',
+                                 shadowBlur: 100,*/
+                                borderColor: "#F7AD3E"
+                            }
+                        },
+                        smooth: true
+                    }
+                ]
+            };
+            var xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+            var url = ""; // 请求的URL
+
+            xhr.open("POST", url, true); // 配置请求：POST方法、URL、异步请求
+
+            var post_req = {
+                "echart": 2,
+                "middle": "all"
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText;
+                    var info = JSON.parse(response);
+                    // 打印完整的 info 对象
+                    console.log('Full info:', info);
+
+                    // 打印完整的 info.data 数组
+                    console.log('Full info.data:', info.data);
+                    // 湿度（series0 接收 temp 的值）
+                    option.series[0].data = info.data.slice(0).map(item => item.temp);
+                    // 温度（series1 接收 temp1 的值）
+                    option.series[1].data = info.data.slice(0).map(item => item.temp1);
+                    // 湿度2（series0 接收 temp 的值）
+                    option.series[2].data = info.data.slice(0).map(item => item.temp);
+                    // 温度2（series1 接收 temp1 的值）
+                    option.series[3].data = info.data.slice(0).map(item => item.temp1);
+
+                    console.log('Humidity data:', option.series[0].data);
+                    console.log('Temperature data:', option.series[1].data);
+
+                    // 使用更新后的配置项更新图表
+                    myChart.setOption(option);
+
+                    for (var i = 0; i < info.data.length; i++) {
+                        if (info.data[i].key === 101) {
+                            document.getElementById('hugong').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 102) {
+                            document.getElementById('huanzhe').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 306) {
+                            document.getElementById('temp').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 304) {
+                            document.getElementById('hum').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 305) {
+                            document.getElementById('dianliang').value = info.data[i].new_val;
+                        }
+                    }
+                }
+            };
+
+            //将json对象序列化为json字符串
+            xhr.send(JSON.stringify(post_req)); // 发送请求，并将数据转换为JSON字符串
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+
+        }
+        function get_info() {
+            //获取名字为usrname的标签，赋值给v
+            var v = document.getElementsByName("usrname");
+            //v[0].value="hello";
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    var postData = xhr.responseText;//获取数据
+                    var dataArray = postData.split(" ");
+
+                    v[0].value = dataArray[0];
+                    v[1].value = dataArray[1] + " " + dataArray[2] + " " + dataArray[3];
+
+                }
+            };
+            xhr.send("get");
+
+        }
+        // 以上为新内容
+        $(function () {
+            $('.myscroll').myScroll({
+                speed: 60, //数值越大，速度越慢
+                rowHeight: 38 //li的高度
+            });
+        });
+        
+        $(document).ready(function () {
+            var whei = $(window).width()
+            $("html").css({ fontSize: whei / 22 });
+            $(window).resize(function () {
+                var whei = $(window).width();
+                $("html").css({ fontSize: whei / 22 })
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="header">
+            <div class="header-left fl" id="time"></div>
+            <div class="header-center fl">
+                <div class="header-title">
+                    基于边缘网关智慧疗养院系统
+                </div>
+                <div class="header-img"></div>
+            </div>
+            <div class="header-right fl"></div>
+            <div class="header-bottom fl"></div>
+
+        </div>
+
+        <div class="center">
+            <div class="center-left fl">
+                <div class="left-top">
+                    <!--<h1 id="ceshi">数据可视化</h1>-->
+                    <div class="title">设备控制部分</div>
+                    <div class="top-list">
+                        <p>智慧疗养院系统设备控制</p>
+
+                        <ul>
+                            <li>
+                                
+                                
+                                扫地机器人：开:<input type="radio" name="robot" id="ropen" onclick="fun5(id)">
+                                关:<input type="radio" name="robot" id="rclose" checked="checked" onclick="fun5(id)"><br>
+                                烟雾报警器: 开:<input type="radio" name="yanwu" id="yopen" onclick="fun6(id)">
+                                关:<input type="radio" name="yanwu" id="yclose" checked="checked" onclick="fun6(id)"><br>
+                                室内照明灯：开:<input type="radio" name="door" id="man" onclick="fun(id)">
+                                关:<input type="radio" name="door" id="woman" checked="checked" onclick="fun(id)"><br>
+                                智能加湿器: 开:<input type="radio" name="sex2" id="kai" onclick="fun1(id)">
+                                关:<input type="radio" name="sex2" id="guan" checked="checked" onclick="fun1(id)"><br>
+                                节能型空调: 开:<input type="radio" name="sex3" id="open" onclick="fun2(id)">
+                                关:<input type="radio" name="sex3" id="close" checked="checked" onclick="fun2(id)"><br>
+                            </li>
+
+
+
+
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="left-cen">
+                    <div class="title">设备信息可视化数据</div>
+                    <ul class="company">
+                        <li>护工人数<input type="text" id="hugong" value="" /></li>
+                        <br>
+                        <li>患者人数<input type="text" id="huanzhe" value="" /></li>
+                        <br>
+                        <li>当前温度<input type="text" id="temp" value="" /></li>
+                        <br>
+                        <li>当前湿度<input type="text" id="hum" value="" /></li>
+                        <br>
+                        <li>设备电量<input type="text" id="dianliang" value="" /></li>
+                        <input class="submit" name="" value="刷新" type="button" onclick="refresh()" />
+                        <input class="submit" name="" value="折线图" type="button" onclick="get_info3()" />
+                    </ul>
+
+                </div>
+                <div class="left-bottom">
+                    <!-- <div class="title">数据可视化测试</div> -->
+                    <div class="bottom-b">
+                        <!-- <div id="chart3" class="allnav"></div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="center-cen fl">
+                <div class="cen-top">
+                    <div class="top-title">
+                        <h2 style="color: gold; margin-left: 220px; white-space: nowrap;">温度湿度历史变化曲线 </h2>
+                        <ul>
+
+                            <li>
+
+
+
+                                <!-- <span>温度湿度曲线</span> -->
+                                <!-- <span>温</span>
+                            <span>湿</span>
+                            <span>度</span> -->
+                                <!-- <b>个</b> -->
+                            </li>
+                            <li>
+                                <!-- <p>同比上升</p> -->
+                                <!-- <span>曲</span>
+                            <span>线</span> -->
+                                <!-- <b>%</b> -->
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="top-bottom">
+                        <div id="chart1" class="allnav"></div>
+                    </div>
+
+
+                </div>
+                <div class="cen-bottom">
+                    <!-- <div class="title">数据可视化测试</div> -->
+                    <div class="bottom-b">
+                        <div id="chart4" class="allnav"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="center-right fr">
+                <div class="right-top">
+                    <!-- <div class="title">数据可视化测试</div> -->
+                    <iframe src="http://192.168.85.141:8080/stream_simple.html" width="200%" height="480px"
+                        frameborder="15"></iframe>
+                    
+                    <div class="echart wenzi">
+                        <div class="gun">
+                            <span>项目</span>
+                            <span>使用的</span>
+                            <span>模块</span>
+                        </div>
+                        <div id="FontScroll" class="myscroll">
+                            <ul>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>1</b>
+                                        </span>
+                                        <!-- <span>ZhuRui</span> -->
+                                        <span>上报模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>2</b>
+                                        </span>
+                                        <!-- <span>XinYu</span> -->
+                                        <span>stm32模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>3</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>modbus模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>4</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>web模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>5</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>视频流模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>6</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>QT客户端模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>7</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>公有云模块</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>8</b>
+                                        </span>
+                                        <!-- <span>2小时15分</span> -->
+                                        <span>设备搜索模块</span>
+                                    </div>
+                                </li>
+                                <!-- <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>9</b>
+                                        </span>
+                                        <span>2小时15分</span>
+                                        <span>2小时15分</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>10</b>
+                                        </span>
+                                        <span>2小时15分</span>
+                                        <span>2小时15分</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>11</b>
+                                        </span>
+                                        <span>2小时15分</span>
+                                        <span>2小时15分</span>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="fontInner clearfix">
+                                        <span>
+                                            <b>12</b>
+                                        </span>
+                                        <span>2小时15分</span>
+                                        <span>2小时15分</span>
+
+                                    </div>
+                                </li> -->
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="right-cen">
+                    <!-- <div class="title">数据可视化测试</div> -->
+                    <!-- <div id="chart2" class="allnav"></div> -->
+
+                </div>
+                <div class="right-bottom">
+                    <!-- <div class="title">数据可视化测试</div> -->
+                    <div class="chat">
+                        <div id="chart5" class="allnav"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/wodry.min.js"></script>
+    <script src="js/fontscroll.js"></script>
+    <script src="js/echarts.js"></script>
+
+    <script>
+        /*$('#ceshi').wodry({
+    
+            animation: 'rotateX',
+    
+            delay: 1000,
+    
+            animationDuration: 800
+    
+        });*/
+        /*window.onload = function () {
+            setInterval(function () {
+                var hs=document.getElementById("ceshi");
+                var hstyle=hs.style.transform;
+                if(hstyle=='rotateX(-360deg)'){
+                    //console.log(1)
+                    hs.style.transform='rotateX(0deg)';
+                    hs.style.transform='transform 500ms cubic-bezier(0.55, 0.18, 0.92, 0.46) 0s;'
+                }else {
+                    hs.style.transform='rotateX(-360deg)';
+                    hs.style.transition="all 2s";
+                }
+            }, 5000);
+        };*/
+
+        //顶部时间
+        function getTime() {
+            var myDate = new Date();
+            var myYear = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+            var myMonth = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+            var myToday = myDate.getDate(); //获取当前日(1-31)
+            var myDay = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+            var myHour = myDate.getHours(); //获取当前小时数(0-23)
+            var myMinute = myDate.getMinutes(); //获取当前分钟数(0-59)
+            var mySecond = myDate.getSeconds(); //获取当前秒数(0-59)
+            var week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            var nowTime;
+
+            nowTime = myYear + '-' + fillZero(myMonth) + '-' + fillZero(myToday) + '&nbsp;&nbsp;' + fillZero(myHour) + ':' + fillZero(myMinute) + ':' + fillZero(mySecond) + '&nbsp;&nbsp;' + week[myDay] + '&nbsp;&nbsp;';
+            //console.log(nowTime);
+            $('#time').html(nowTime);
+        };
+        function fillZero(str) {
+            var realNum;
+            if (str < 10) {
+                realNum = '0' + str;
+            } else {
+                realNum = str;
+            }
+            return realNum;
+        }
+        setInterval(getTime, 1000);
+
+    </script>
+
+</body>
+
+</html>

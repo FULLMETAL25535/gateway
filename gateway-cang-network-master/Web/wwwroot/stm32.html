@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stm32</title>
+    <script type="text/javascript">
+        function init() {
+            refresh();
+        }
+
+        function refresh() {
+            var xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+            var url = ""; // 请求的URL
+
+            xhr.open("POST", url, true); // 配置请求：POST方法、URL、异步请求
+
+            var post_req = {
+                "type": 1,
+                "limit": "all"
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) { // 请求完成且成功
+                    var response = xhr.responseText; // 获取响应数据
+                    var info = JSON.parse(response)  //将json字符串反序列化为json对象
+                    console.log(info); // 在浏览器控制台打印响应数据
+                    for (var i = 0; i < info.data.length; i++) {
+                        if (info.data[i].key === 1) {
+                            document.getElementById('temp').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 2) {
+                            document.getElementById('hum').value = info.data[i].new_val;
+                        } 
+                        
+                    }
+                }
+            };
+
+            //将json对象序列化为json字符串
+            xhr.send(JSON.stringify(post_req)); // 发送请求，并将数据转换为JSON字符串
+        }
+        function fun(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+
+            if (obj == 'man') {
+                console.log("1 kai");
+                xhr.send("set=1");
+            }
+            else {
+                console.log("1 guan");
+                xhr.send("set=0");
+            }
+        }
+        function fun1(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'kai') {
+                console.log("2 kai");
+                xhr.send("set1=1");
+            }
+            else {
+                console.log("2 guan");
+                xhr.send("set1=0");
+            }
+        }
+        function fun2(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'open') {
+                console.log("3 open");
+                xhr.send("set2=1");
+            }
+            else {
+                console.log("3 close");
+                xhr.send("set2=0");
+            }
+        }
+        
+        function get_info() {
+            //获取名字为usrname的标签，赋值给v
+            var v = document.getElementsByName("usrname");
+            //v[0].value="hello";
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    var postData = xhr.responseText;//获取数据
+                    var dataArray = postData.split(" ");
+
+                    v[0].value = dataArray[0];
+                    v[1].value = dataArray[1] + " " + dataArray[2] + " " + dataArray[3];
+
+                }
+            };
+            xhr.send("get");
+
+        }
+        
+    </script>
+</head>
+
+<body onload="init()">
+    <a href="index2.html">主页</a>
+
+    <a href="modbus.html">modbus示例页面</a>
+    <a href="http://192.168.50.78:8080/stream_simple.html">监控</a>
+    
+
+    <div>
+        <form>
+            <br />
+            温度<input type="text" id="temp" value="" /><br />
+            湿度<input type="text" id="hum" value="" /><br />
+            <input class="submit" name="" value="刷新" type="button" onclick="refresh()" />
+            
+            <!-- 暂未设定<input type="text" id="ill" value="" /> -->
+        </form>
+        <!-- 光照强度:
+        <input type="text" name="usrname" value="">
+        加速度
+        <input type="text" name="usrname" value="">
+        <input type="button" name="flash" value="获取" onclick="get_info()"> -->
+        <br>
+        <br>
+        <!-- type类型为radio 表示单选框
+        表示同样类型的单选框name必须相同 -->
+        设备控制
+        <br>
+        <br>
+        灯：开:<input type="radio" name="door" id="man" checked="checked" onclick="fun(id)">
+        关:<input type="radio" name="door" id="woman" onclick="fun(id)"><br>
+        加湿器 开:<input type="radio" name="sex2" id="kai" checked="checked" onclick="fun1(id)">
+        关:<input type="radio" name="sex2" id="guan" onclick="fun1(id)"><br>
+        空调 开:<input type="radio" name="sex3" id="open" checked="checked" onclick="fun2(id)">
+        关:<input type="radio" name="sex3" id="close" onclick="fun2(id)"><br>
+        
+    </div>
+
+</body>
+
+</html>

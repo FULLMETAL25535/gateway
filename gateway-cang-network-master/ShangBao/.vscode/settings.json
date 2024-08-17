@@ -1,0 +1,29 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "string.h": "c",
+        "stdio.h": "c",
+        "types.h": "c",
+        "unistd.h": "c",
+        "socket.h": "c",
+        "in.h": "c",
+        "inet.h": "c",
+        "errno.h": "c",
+        "strings.h": "c",
+        "cstdio": "c",
+        "typeinfo": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "/usr/include/c++/5/**",
+        "/usr/include/i386-linux-gnu/c++/5/**",
+        "/usr/include/c++/5/backward/**",
+        "/usr/lib/gcc/i686-linux-gnu/5/include/**",
+        "/usr/local/include/**",
+        "/usr/lib/gcc/i686-linux-gnu/5/include-fixed/**",
+        "/usr/include/i386-linux-gnu/**",
+        "/usr/include/**"
+    ],
+    "C_Cpp.dimInactiveRegions": false
+}

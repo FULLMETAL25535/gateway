@@ -1,0 +1,81 @@
+{
+    "version": "v1.0",
+    "report": {
+        "type": 2,
+        "period": 5
+    },
+    "mqtt_server": {
+        "addr": "192.168.50.92",
+        "port": 1883
+    },
+    "mb_dev": {
+        "addr": "192.168.31.244",
+        "port": 502
+    },
+    "mb_app": {
+        "addr": "192.168.31.222",
+        "port": 8887
+    },
+    "stm32":{
+        "data": [
+            {
+                "key": 301,
+                "name": "js",  //加湿
+                "type": 1
+            },
+            {
+                "key": 302,
+                "name": "light",//灯
+                "type": 1
+            },
+            {
+                "key": 303,
+                "name": "kt",//空调
+                "type": 1
+            },
+            {
+                "key": 304,
+                "name": "temp",//湿度
+                "type": 1
+            },
+            {
+                "key": 305,
+                "name": "dl",//电量
+                "type": 2
+            },
+            {
+                "key": 306,
+                "name": "temp",//温度
+                "type": 3
+            }
+        ]
+    },
+    "modbus": {
+        "data": [
+            {
+                "key": 101,
+                "name": "hgnum",//护工人数
+                "addr": 30001,
+                "type": 2
+            },
+            {
+                "key": 102,
+                "name": "hznum",//患者人数
+                "addr": 30003,
+                "type": 2
+            },
+            {
+                "key": 103,
+                "name": "sdai",//扫地机器人
+                "addr": 1,
+                "type": 1
+            },
+            {
+                "key": 104,
+                "name": "ywbj",//烟雾报警器
+                "addr": 40001,
+                "type": 1
+            }
+        ]
+    }
+}

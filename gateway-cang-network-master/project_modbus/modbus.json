@@ -1,0 +1,76 @@
+{
+    "version": "v1.0",
+    "report": {
+        "type": 2,
+        "period": 5
+    },
+    "mqtt_server": {
+        "addr": "192.168.50.92",
+        "port": 1883
+    },
+    "mb_dev": {
+        "addr": "192.168.31.244",
+        "port": 502
+    },
+    "mb_app": {
+        "addr": "192.168.31.222",
+        "port": 8887
+    },
+    "stm32":{
+        "data": [
+            {
+                "key": 301,
+                "name": "humidifier",
+                "type": 3
+            },
+            {
+                "key": 302,
+                "name": "light",
+                "type": 3
+            },
+            {
+                "key": 303,
+                "name": "air_conditioning",
+                "type": 1
+            },
+            {
+                "key": 304,
+                "name": "temp",
+                "type": 1
+            },
+            {
+                "key": 305,
+                "name": "battery",
+                "type": 1
+            }
+        ]
+    },
+    "modbus": {
+        "data": [
+            {
+                "key": 101,
+                "name": "num_caregivers",
+                "addr": 0,
+                "type": 3
+            },
+            {
+                "key": 102,
+                "name": "num_patient",
+                "addr": 1,
+                "type": 3
+            },
+            {
+                "key": 103,
+                "name": "reportobot_vacuums",
+                "addr": 0,
+                "type": 1
+            },
+            {
+                "key": 104,
+                "name": "smoke_alarms",
+                "addr": 1,
+                "type": 3
+            }
+        ]
+    }
+}

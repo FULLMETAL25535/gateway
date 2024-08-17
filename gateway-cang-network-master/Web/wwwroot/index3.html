@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧疗养院系统设备控制</title>
+
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        function init() {
+            refresh();
+        }
+
+        function refresh() {
+            var xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+            var url = ""; // 请求的URL
+
+            xhr.open("POST", url, true); // 配置请求：POST方法、URL、异步请求
+
+            var post_req = {
+                "type": 1,
+                "limit": "all"
+            };
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) { // 请求完成且成功
+                    var response = xhr.responseText; // 获取响应数据
+                    var info = JSON.parse(response)  //将json字符串反序列化为json对象
+                    console.log(info); // 在浏览器控制台打印响应数据
+                    for (var i = 0; i < info.data.length; i++) {
+                        if (info.data[i].key === 1) {
+                            document.getElementById('hugong').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 2) {
+                            document.getElementById('huanzhe').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 3) {
+                            document.getElementById('temp').value = info.data[i].new_val;
+                        } else if (info.data[i].key === 4) {
+                            document.getElementById('hum').value = info.data[i].new_val;
+                        } 
+                        
+                    }
+                }
+            };
+
+            //将json对象序列化为json字符串
+            xhr.send(JSON.stringify(post_req)); // 发送请求，并将数据转换为JSON字符串
+        }
+        function fun(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+
+            if (obj == 'man') {
+                console.log("1 kai");
+                xhr.send("set=1");
+            }
+            else {
+                console.log("1 guan");
+                xhr.send("set=0");
+            }
+        }
+        function fun1(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'kai') {
+                console.log("2 kai");
+                xhr.send("set1=1");
+            }
+            else {
+                console.log("2 guan");
+                xhr.send("set1=0");
+            }
+        }
+        function fun2(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'open') {
+                console.log("3 open");
+                xhr.send("set2=1");
+            }
+            else {
+                console.log("3 close");
+                xhr.send("set2=0");
+            }
+        }
+        function fun5(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+
+            if (obj == 'ropen') {
+                console.log("1 kai");
+                xhr.send("set5=1");
+            }
+            else {
+                console.log("1 guan");
+                xhr.send("set5=0");
+            }
+        }
+        function fun6(obj) {
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            if (obj == 'yopen') {
+                console.log("2 kai");
+                xhr.send("set6=1");
+            }
+            else {
+                console.log("2 guan");
+                xhr.send("set6=0");
+            }
+        }
+        function get_info() {
+            //获取名字为usrname的标签，赋值给v
+            var v = document.getElementsByName("usrname");
+            //v[0].value="hello";
+            var xhr = new XMLHttpRequest();//创建XML对象
+            var url = "";
+            xhr.open("post", url, true);//配置请求：post方法，URL,异步请求
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    var postData = xhr.responseText;//获取数据
+                    var dataArray = postData.split(" ");
+
+                    v[0].value = dataArray[0];
+                    v[1].value = dataArray[1] + " " + dataArray[2] + " " + dataArray[3];
+
+                }
+            };
+            xhr.send("get");
+
+        }
+        // 以上为新内容
+        $(function () {
+            $('.myscroll').myScroll({
+                speed: 60, //数值越大，速度越慢
+                rowHeight: 38 //li的高度
+            });
+        });
+
+        $(document).ready(function () {
+            var whei = $(window).width()
+            $("html").css({ fontSize: whei / 22 });
+            $(window).resize(function () {
+                var whei = $(window).width();
+                $("html").css({ fontSize: whei / 22 })
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="main">
+    <div class="header">
+        <div class="header-left fl" id="time"></div>
+        <div class="header-center fl">
+            <div class="header-title">
+                基于边缘网关智慧疗养院系统
+            </div>
+            <div class="header-img"></div>
+        </div>
+        <div class="header-right fl"></div>
+        <div class="header-bottom fl"></div>
+
+    </div>
+
+    <div class="center">
+        <div class="center-left fl">
+            <div class="left-top">
+                <!--<h1 id="ceshi">数据可视化</h1>-->
+                <div class="title">设备控制部分</div>
+                <div class="top-list">
+                    <p>智慧疗养院系统设备控制</p>
+                    
+                    <ul>
+                           <li> 
+                                扫地机器人：开:<input type="radio" name="robot" id="ropen" checked="checked" onclick="fun5(id)">
+                                关:<input type="radio" name="robot" id="rclose" onclick="fun5(id)"><br>
+                                烟雾报警器: 开:<input type="radio" name="yanwu" id="yopen" checked="checked" onclick="fun6(id)">
+                                关:<input type="radio" name="yanwu" id="yclose" onclick="fun6(id)"><br>
+                                室内照明灯：开:<input type="radio" name="door" id="man" checked="checked" onclick="fun(id)">
+                                关:<input type="radio" name="door" id="woman" onclick="fun(id)"><br>
+                                智能加湿器: 开:<input type="radio" name="sex2" id="kai" checked="checked" onclick="fun1(id)">
+                                关:<input type="radio" name="sex2" id="guan" onclick="fun1(id)"><br>
+                                节能型空调: 开:<input type="radio" name="sex3" id="open" checked="checked" onclick="fun2(id)">
+                                关:<input type="radio" name="sex3" id="close" onclick="fun2(id)"><br>
+                           </li> 
+                        
+                        
+                        
+           
+                        
+                    </ul>
+                </div>
+
+            </div>
+            <div class="left-cen">
+                <div class="title">设备信息可视化数据</div>
+                <ul class="company">
+                    <li>护工人数<input type="text" id="hugong" value="" /></li>
+                    <br>
+                    <li>患者人数<input type="text" id="huanzhe" value="" /></li>
+                    <br>
+                    <li>当前温度<input type="text" id="temp" value="" /></li>
+                    <br>
+                    <li>当前湿度<input type="text" id="hum" value="" /></li>   
+                    <input class="submit" name="" value="刷新" type="button" onclick="refresh()" />
+                </ul>
+
+            </div>
+            <div class="left-bottom">
+                <!-- <div class="title">数据可视化测试</div> -->
+                <div class="bottom-b">
+                    <!-- <div id="chart3" class="allnav"></div> -->
+                </div>
+
+            </div>
+        </div>
+        <div class="center-cen fl">
+            <div class="cen-top">
+                <div class="top-title">
+                    <ul>
+                        <li>
+                            
+                        
+                            <!-- <span>温度湿度曲线</span> -->
+                            <!-- <span>温</span>
+                            <span>湿</span>
+                            <span>度</span> -->
+                            <!-- <b>个</b> -->
+                        </li>
+                        <li>
+                            <!-- <p>同比上升</p> -->
+                            <!-- <span>曲</span>
+                            <span>线</span> -->
+                            <!-- <b>%</b> -->
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="top-bottom">
+                    <div id="chart1" class="allnav"></div>
+                </div>
+
+
+            </div>
+            <div class="cen-bottom">
+                <!-- <div class="title">数据可视化测试</div> -->
+                <div class="bottom-b">
+                    <div id="chart4" class="allnav"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="center-right fr">
+            <div class="right-top">
+                <!-- <div class="title">数据可视化测试</div> -->
+                <iframe src="http://192.168.50.80:8080/stream_simple.html" width="150%" height="480px" frameborder="15"></iframe>
+                <div class="echart wenzi">
+                    <div class="gun">
+                        <span>感谢</span>
+                        <span>各位的</span>
+                        <span>贡献</span>
+                    </div>
+                    <div id="FontScroll" class="myscroll">
+                        <ul>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>1</b>
+                                    </span>
+                                    <span>ZhuRui</span>
+                                    <span>上报</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>2</b>
+                                    </span>
+                                    <span>XinYu</span>
+                                    <span>stm32</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>3</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>4</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>5</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>6</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>7</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>8</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>9</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>10</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>11</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fontInner clearfix">
+                                    <span>
+                                        <b>12</b>
+                                    </span>
+                                    <span>2小时15分</span>
+                                    <span>2小时15分</span>
+
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="right-cen">
+                <!-- <div class="title">数据可视化测试</div> -->
+                <!-- <div id="chart2" class="allnav"></div> -->
+                
+            </div>
+            <div class="right-bottom">
+                <!-- <div class="title">数据可视化测试</div> -->
+                <div class="chat">
+                    <div id="chart5" class="allnav"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/wodry.min.js"></script>
+<script src="js/fontscroll.js"></script>
+<script src="js/echarts.js"></script>
+
+<script>
+    /*$('#ceshi').wodry({
+
+        animation: 'rotateX',
+
+        delay: 1000,
+
+        animationDuration: 800
+
+    });*/
+    /*window.onload = function () {
+        setInterval(function () {
+            var hs=document.getElementById("ceshi");
+            var hstyle=hs.style.transform;
+            if(hstyle=='rotateX(-360deg)'){
+                //console.log(1)
+                hs.style.transform='rotateX(0deg)';
+                hs.style.transform='transform 500ms cubic-bezier(0.55, 0.18, 0.92, 0.46) 0s;'
+            }else {
+                hs.style.transform='rotateX(-360deg)';
+                hs.style.transition="all 2s";
+            }
+        }, 5000);
+    };*/
+
+    //顶部时间
+    function getTime(){
+        var myDate = new Date();
+        var myYear = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+        var myMonth = myDate.getMonth()+1; //获取当前月份(0-11,0代表1月)
+        var myToday = myDate.getDate(); //获取当前日(1-31)
+        var myDay = myDate.getDay(); //获取当前星期X(0-6,0代表星期天)
+        var myHour = myDate.getHours(); //获取当前小时数(0-23)
+        var myMinute = myDate.getMinutes(); //获取当前分钟数(0-59)
+        var mySecond = myDate.getSeconds(); //获取当前秒数(0-59)
+        var week = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+        var nowTime;
+
+        nowTime = myYear+'-'+fillZero(myMonth)+'-'+fillZero(myToday)+'&nbsp;&nbsp;'+fillZero(myHour)+':'+fillZero(myMinute)+':'+fillZero(mySecond)+'&nbsp;&nbsp;'+week[myDay]+'&nbsp;&nbsp;';
+        //console.log(nowTime);
+        $('#time').html(nowTime);
+    };
+    function fillZero(str){
+        var realNum;
+        if(str<10){
+            realNum	= '0'+str;
+        }else{
+            realNum	= str;
+        }
+        return realNum;
+    }
+    setInterval(getTime,1000);
+
+</script>
+
+</body>
+</html>
